@@ -79,8 +79,8 @@ const AsmaulHusna: React.FC = () => {
           >
             <div className="flex flex-col items-center">
               <span className="text-gray-600 dark:text-gray-300 font-semibold self-start">{item.index}.</span>
-              <p className="font-arabic text-3xl text-gray-800 dark:text-gray-200 text-center mb-1" dir="rtl">{item.arab}</p>
-              <p className="text-gray-500 dark:text-gray-400 text-center">{item.latin}</p>
+              <p className="font-arabic text-3xl text-gray-800 dark:text-gray-200 text-center mb-3" dir="rtl">{item.arab}</p>
+              <p className="text-gray-500 dark:text-gray-400 text-center font-bold">{item.latin}</p>
               <p className="text-gray-500 dark:text-gray-400 text-center italic">{item.terjemahan_id}</p>
             </div>
           </div>

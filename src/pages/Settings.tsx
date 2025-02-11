@@ -36,7 +36,7 @@ const SettingsPage: React.FC = () => {
       <div className="container mx-auto mt-6 px-4">
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
           <div className="flex items-center justify-between mb-4">
-            <label className="text-gray-700 dark:text-gray-300 font-medium">Mode gelap:</label>
+            <label className="text-gray-700 dark:text-gray-300 font-medium">Mode gelap</label>
             <button
               onClick={toggleTheme}
               className={`ml-4 rounded-full w-12 h-6 transition-colors duration-200 focus:outline-none ${
@@ -52,7 +52,7 @@ const SettingsPage: React.FC = () => {
           </div>
 
           <div className="flex items-center justify-between mb-4">
-            <label className="text-gray-700 dark:text-gray-300 font-medium">Tampilkan terjemah:</label>
+            <label className="text-gray-700 dark:text-gray-300 font-medium">Tampilkan terjemah</label>
             <button
               onClick={toggleTranslation}
               className={`ml-4 rounded-full w-12 h-6 transition-colors duration-200 focus:outline-none ${
@@ -68,7 +68,7 @@ const SettingsPage: React.FC = () => {
           </div>
 
           <div className="flex items-center justify-between mb-4">
-            <label className="text-gray-700 dark:text-gray-300 font-medium">Tampilkan tafsir:</label>
+            <label className="text-gray-700 dark:text-gray-300 font-medium">Tampilkan tafsir</label>
             <button
               onClick={toggleTafsir}
               className={`ml-4 rounded-full w-12 h-6 transition-colors duration-200 focus:outline-none ${

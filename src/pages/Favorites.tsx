@@ -47,7 +47,7 @@ const FavoritesPage: React.FC = () => {
                 <div>
                   <p className="text-gray-600 dark:text-gray-300">{surah.nomor}</p>
                 </div>
-                <div>
+                <div className="text-center">
                   <p className="font-arabic text-3xl text-gray-800 dark:text-gray-200">{surah.nama}</p>
                   <p className="text-gray-500 dark:text-gray-400">{surah.namaLatin}</p>
                   <p className="text-gray-500 dark:text-gray-400">({surah.arti}: {surah.jumlahAyat} Ayat)</p>

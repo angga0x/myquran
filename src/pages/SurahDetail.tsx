@@ -2,8 +2,8 @@ import React, { useEffect, useState, useRef, useContext } from 'react';
 import { useParams, useNavigate, Link, useLocation } from 'react-router-dom';
 import { getSurahAyahs } from '../services/quranApi';
 import { AyahResponse, Ayah } from '../types/quran';
-import { HeartIcon, ArrowLeftIcon, EllipsisVerticalIcon, PlayIcon, PauseIcon, BookmarkIcon } from '@heroicons/react/24/outline';
-import { HeartIcon as HeartSolidIcon, BookmarkIcon as BookmarkSolidIcon, HomeIcon as HomeSolidIcon, BookOpenIcon as BookOpenSolidIcon, Cog6ToothIcon as Cog6ToothSolidIcon, HomeIcon, BookOpenIcon, Cog6ToothIcon } from '@heroicons/react/24/solid';
+import { HeartIcon, ArrowLeftIcon, EllipsisVerticalIcon, PlayIcon, PauseIcon, BookmarkIcon, SunIcon, MoonIcon, HomeIcon, BookOpenIcon, Cog6ToothIcon } from '@heroicons/react/24/outline';
+import { HeartIcon as HeartSolidIcon, BookmarkIcon as BookmarkSolidIcon, HomeIcon as HomeSolidIcon, BookOpenIcon as BookOpenSolidIcon, Cog6ToothIcon as Cog6ToothSolidIcon } from '@heroicons/react/24/solid';
 import { ThemeContext } from '../context/ThemeContext';
 import { getTafsir } from '../services/tafsirApi';
 
@@ -26,9 +26,9 @@ const SurahDetail: React.FC = () => {
   });
   const [tafsir, setTafsir] = useState<(Tafsir | null)[]>([]);
   const currentAyahRef = useRef<number | null>(null);
-  const [showTranslationState] = useState(true);
+  const [showTranslation, setShowTranslation] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { theme } = useContext(ThemeContext);
+  const { theme, toggleTheme } = useContext(ThemeContext);
   const location = useLocation();
   const [showSurahNav, setShowSurahNav] = useState(true);
 
@@ -185,22 +185,43 @@ const SurahDetail: React.FC = () => {
     localStorage.setItem('showTafsir', String(!showTafsir));
   };
 
-  const handleBackNavigation = () => {
+  const handleToggleTranslation = () => {
+    setShowTranslation(!showTranslation);
+  };
+
+  const handleThemeToggle = () => {
+    toggleTheme();
+  };
+
+  const goHome = () => {
     if (audio && isPlaying) {
       audio.pause();
       setAudio(null);
       setIsPlaying(false);
       currentAyahRef.current = null;
     }
-    navigate(-1);
+    navigate('/');
+  };
+
+  const navigateSurah = (surahNumber: number | false) => {
+    if (surahNumber) {
+      if (audio && isPlaying) {
+        audio.pause();
+        setAudio(null);
+        setIsPlaying(false);
+        currentAyahRef.current = null;
+      }
+      navigate(`/surah/${surahNumber}`);
+      window.scrollTo(0, 0);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-200 dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-200 dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-gray-100 transition-colors duration-300 pb-32">
       {/* Header */}
       <div className="bg-white dark:bg-gray-800 px-4 py-3 flex items-center justify-between shadow-sm fixed top-0 left-0 right-0 z-10">
         <div className="flex items-center">
-          <button onClick={handleBackNavigation} className="p-2">
+          <button onClick={goHome} className="p-2">
             <ArrowLeftIcon className="w-6 h-6 text-gray-600 dark:text-gray-400" />
           </button>
           <h1 className="text-xl font-semibold ml-2">{surahData?.namaLatin}</h1>
@@ -213,6 +234,13 @@ const SurahDetail: React.FC = () => {
               <HeartIcon className="w-6 h-6 text-gray-400 dark:text-gray-600" />
             )}
           </button>
+           <button onClick={handleThemeToggle} className="p-2">
+            {theme === 'light' ? (
+              <MoonIcon className="w-6 h-6 text-gray-400 dark:text-gray-600" />
+            ) : (
+              <SunIcon className="w-6 h-6 text-[#FFD700]" />
+            )}
+          </button>
           <button onClick={toggleMenu} className="p-2">
             <EllipsisVerticalIcon className="w-6 h-6 text-gray-600 dark:text-gray-400" />
           </button>
@@ -221,15 +249,16 @@ const SurahDetail: React.FC = () => {
           {isMenuOpen && (
             <div className="absolute top-10 right-0 bg-white dark:bg-gray-700 shadow-md rounded-md p-2 w-48">
               <button
-                className="block w-full text-left px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-md transition-colors duration-200"
-              >
-                {theme === 'light' ? 'Aktifkan Mode Gelap' : 'Aktifkan Mode Terang'}
-              </button>
-              <button
                 onClick={handleToggleTafsir}
                 className="block w-full text-left px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-md transition-colors duration-200"
               >
-                {showTafsir ? 'Sembunyikan Tafsir' : 'Tampilkan Tafsir'}
+                Tafsir: {showTafsir ? 'ON' : 'OFF'}
+              </button>
+              <button
+                onClick={handleToggleTranslation}
+                className="block w-full text-left px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-md transition-colors duration-200"
+              >
+                Terjemahan: {showTranslation ? 'ON' : 'OFF'}
               </button>
             </div>
           )}
@@ -279,9 +308,9 @@ const SurahDetail: React.FC = () => {
                 {ayah.teksArab}
               </p>
               <div className="space-y-2">
-                {showTranslationState && (
+                {showTranslation && (
                   <p className="text-gray-600 dark:text-gray-300 font-italic">
-                    {ayah.teksIndonesia}
+                    <strong className="font-bold">Terjemahan:</strong> {ayah.teksIndonesia}
                   </p>
                 )}
                 {showTafsir && tafsir[index] && (
@@ -299,22 +328,22 @@ const SurahDetail: React.FC = () => {
         {surahData && (
           <div className={`fixed bottom-16 left-0 right-0 flex justify-around items-center px-4 py-3 transition-opacity duration-300 ${showSurahNav ? 'opacity-100' : 'opacity-0'}`}>
             {surahData.suratSebelumnya && (
-              <Link
-                to={`/surah/${surahData.suratSebelumnya.nomor}`}
+              <button
+                onClick={() => navigateSurah(surahData.suratSebelumnya ? surahData.suratSebelumnya.nomor : false)}
                 className="bg-[#1b76f5] hover:bg-[#42a5f5] text-white rounded-full px-4 py-2 flex items-center"
               >
                 <ArrowLeftIcon className="w-5 h-5 mr-2" />
                 <span>{surahData.suratSebelumnya.namaLatin}</span>
-              </Link>
+              </button>
             )}
             {surahData.suratSelanjutnya && (
-              <Link
-                to={`/surah/${surahData.suratSelanjutnya.nomor}`}
+              <button
+                onClick={() => navigateSurah(surahData.suratSelanjutnya ? surahData.suratSelanjutnya.nomor : false)}
                 className="bg-[#1b76f5] hover:bg-[#42a5f5] text-white rounded-full px-4 py-2 flex items-center"
               >
                 <span>{surahData.suratSelanjutnya.namaLatin}</span>
                 <ArrowLeftIcon className="w-5 h-5 ml-2 transform rotate-180" />
-              </Link>
+              </button>
             )}
           </div>
         )}
@@ -322,19 +351,19 @@ const SurahDetail: React.FC = () => {
       {/* Full Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 transition-colors duration-300">
         <div className="flex justify-around py-3">
-          <Link to="/" className={`flex flex-col items-center transition-colors duration-300 ${location.pathname === '/' ? 'text-[#1b76f5]' : 'text-gray-600 dark:text-gray-400'}`}>
+          <Link to="/" className={`flex flex-col items-center transition-colors duration-300 ${location.pathname === '/' ? 'text-[#1b76f5]' : 'text-gray-600 dark:text-gray-400'} px-3 mb-1`}>
             {location.pathname === '/' ? <HomeSolidIcon className="w-6 h-6" /> : <HomeIcon className="w-6 h-6" />}
             <span className="text-xs">Beranda</span>
           </Link>
-          <Link to="/last-read" className={`flex flex-col items-center transition-colors duration-300 ${location.pathname === '/last-read' ? 'text-[#1b76f5]' : 'text-gray-600 dark:text-gray-400'}`}>
+          <Link to="/last-read" className={`flex flex-col items-center transition-colors duration-300 ${location.pathname === '/last-read' ? 'text-[#1b76f5]' : 'text-gray-600 dark:text-gray-400'} px-3 mb-1`}>
             {location.pathname === '/last-read' ? <BookOpenSolidIcon className="w-6 h-6" /> : <BookOpenIcon className="w-6 h-6" />}
             <span className="text-xs">Terakhir Baca</span>
           </Link>
-          <Link to="/favorites" className={`flex flex-col items-center transition-colors duration-300 ${location.pathname === '/favorites' ? 'text-[#1b76f5]' : 'text-gray-600 dark:text-gray-400'}`}>
+          <Link to="/favorites" className={`flex flex-col items-center transition-colors duration-300 ${location.pathname === '/favorites' ? 'text-[#1b76f5]' : 'text-gray-600 dark:text-gray-400'} px-3 mb-1`}>
             {location.pathname === '/favorites' ? <HeartSolidIcon className="w-6 h-6" /> : <HeartIcon className="w-6 h-6" />}
             <span className="text-xs">Favorit</span>
           </Link>
-          <Link to="/settings" className={`flex flex-col items-center transition-colors duration-300 ${location.pathname === '/settings' ? 'text-[#1b76f5]' : 'text-gray-600 dark:text-gray-400'}`}>
+          <Link to="/settings" className={`flex flex-col items-center transition-colors duration-300 ${location.pathname === '/settings' ? 'text-[#1b76f5]' : 'text-gray-600 dark:text-gray-400'} px-3 mb-1`}>
             {location.pathname === '/settings' ? <Cog6ToothSolidIcon className="w-6 h-6" /> : <Cog6ToothIcon className="w-6 h-6" />}
             <span className="text-xs">Setelan</span>
           </Link>

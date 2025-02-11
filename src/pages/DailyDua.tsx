@@ -85,7 +85,7 @@ const DailyDua: React.FC = () => {
               onClick={() => toggleDoa(index)}
               className="flex justify-between items-center w-full p-4"
             >
-              <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300">{item.nama}</h3>
+              <h3 className="text-base font-normal text-gray-700 dark:text-gray-300">{item.nama}</h3>
               <svg
                 className={`w-5 h-5 text-gray-600 dark:text-gray-300 transition-transform duration-200 ${expandedDoa === index ? 'rotate-180' : ''}`}
                 fill="none"
@@ -99,9 +99,9 @@ const DailyDua: React.FC = () => {
 
             {expandedDoa === index && (
               <div className="p-4 border-t border-gray-200 dark:border-gray-600">
-                <p className="font-arabic text-2xl text-gray-800 dark:text-gray-200 text-right" dir="rtl">{item.arab}</p>
-                <p className="text-gray-600 dark:text-gray-300 italic text-sm mt-1">{item.latin}</p>
-                <p className="text-gray-600 dark:text-gray-300 text-sm">{item.terjemahan}</p>
+                <p className="font-arabic text-2xl text-gray-800 dark:text-gray-200 text-right mb-4" dir="rtl">{item.arab}</p>
+                <p className="text-gray-600 dark:text-gray-300 italic text-sm mt-2 mb-2">{item.latin}</p>
+                <p className="text-gray-600 dark:text-gray-300 text-sm"><strong>Terjemahan:</strong> {item.terjemahan}</p>
               </div>
             )}
           </div>
