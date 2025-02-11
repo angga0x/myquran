@@ -28,7 +28,7 @@ const SurahDetail: React.FC = () => {
   const currentAyahRef = useRef<number | null>(null);
   const [showTranslationState] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { theme, toggleTheme } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
   const location = useLocation();
   const [showSurahNav, setShowSurahNav] = useState(true);
 
@@ -95,6 +95,31 @@ const SurahDetail: React.FC = () => {
       clearTimeout(timeoutId);
     };
   }, []);
+
+  useEffect(() => {
+    // Function to stop audio when navigating away
+    const stopAudioOnUnmount = () => {
+      if (audio && isPlaying) {
+        audio.pause();
+        setAudio(null);
+        setIsPlaying(false);
+        currentAyahRef.current = null;
+      }
+    };
+
+    // Event listener for beforeunload (refreshing, closing tab, etc.)
+    const handleBeforeUnload = () => {
+      stopAudioOnUnmount();
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    // Return a cleanup function to remove the event listener and stop the audio
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      stopAudioOnUnmount();
+    };
+  }, [audio, isPlaying]);
 
   const toggleFavorite = () => {
     if (!surahData) return;
@@ -196,7 +221,6 @@ const SurahDetail: React.FC = () => {
           {isMenuOpen && (
             <div className="absolute top-10 right-0 bg-white dark:bg-gray-700 shadow-md rounded-md p-2 w-48">
               <button
-                onClick={toggleTheme}
                 className="block w-full text-left px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-md transition-colors duration-200"
               >
                 {theme === 'light' ? 'Aktifkan Mode Gelap' : 'Aktifkan Mode Terang'}
