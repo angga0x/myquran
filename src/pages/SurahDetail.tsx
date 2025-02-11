@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link, useLocation } from 'react-router-dom';
 import { getSurahAyahs } from '../services/quranApi';
 import { AyahResponse, Ayah } from '../types/quran';
 import { HeartIcon, ArrowLeftIcon, EllipsisVerticalIcon, PlayIcon, PauseIcon, BookmarkIcon } from '@heroicons/react/24/outline';
-import { HeartIcon as HeartSolidIcon, BookmarkIcon as BookmarkSolidIcon } from '@heroicons/react/24/solid';
+import { HeartIcon as HeartSolidIcon, BookmarkIcon as BookmarkSolidIcon, HomeIcon as HomeSolidIcon, BookOpenIcon as BookOpenSolidIcon, Cog6ToothIcon as Cog6ToothSolidIcon, HomeIcon, BookOpenIcon, Cog6ToothIcon } from '@heroicons/react/24/solid';
 import { ThemeContext } from '../context/ThemeContext';
 import { getTafsir } from '../services/tafsirApi';
 
@@ -29,6 +29,8 @@ const SurahDetail: React.FC = () => {
   const [showTranslationState] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const location = useLocation();
+  const [showSurahNav, setShowSurahNav] = useState(true);
 
   useEffect(() => {
     const fetchSurahData = async () => {
@@ -69,6 +71,30 @@ const SurahDetail: React.FC = () => {
 
     fetchTafsirData();
   }, [number, showTafsir, surahData]);
+
+  useEffect(() => {
+    let timeoutId: ReturnType<typeof setTimeout>;
+
+    const handleScroll = () => {
+      setShowSurahNav(true);
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setShowSurahNav(false);
+      }, 3000);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    // Set initial timeout
+    timeoutId = setTimeout(() => {
+      setShowSurahNav(false);
+    }, 3000);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearTimeout(timeoutId);
+    };
+  }, []);
 
   const toggleFavorite = () => {
     if (!surahData) return;
@@ -247,7 +273,7 @@ const SurahDetail: React.FC = () => {
 
         {/* Navigation between surahs */}
         {surahData && (
-          <div className="fixed bottom-16 left-0 right-0 flex justify-around items-center px-4 py-3 transition-colors duration-300">
+          <div className={`fixed bottom-16 left-0 right-0 flex justify-around items-center px-4 py-3 transition-opacity duration-300 ${showSurahNav ? 'opacity-100' : 'opacity-0'}`}>
             {surahData.suratSebelumnya && (
               <Link
                 to={`/surah/${surahData.suratSebelumnya.nomor}`}
@@ -269,6 +295,27 @@ const SurahDetail: React.FC = () => {
           </div>
         )}
       </div>
+      {/* Full Navigation */}
+      <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 transition-colors duration-300">
+        <div className="flex justify-around py-3">
+          <Link to="/" className={`flex flex-col items-center transition-colors duration-300 ${location.pathname === '/' ? 'text-[#1b76f5]' : 'text-gray-600 dark:text-gray-400'}`}>
+            {location.pathname === '/' ? <HomeSolidIcon className="w-6 h-6" /> : <HomeIcon className="w-6 h-6" />}
+            <span className="text-xs">Beranda</span>
+          </Link>
+          <Link to="/last-read" className={`flex flex-col items-center transition-colors duration-300 ${location.pathname === '/last-read' ? 'text-[#1b76f5]' : 'text-gray-600 dark:text-gray-400'}`}>
+            {location.pathname === '/last-read' ? <BookOpenSolidIcon className="w-6 h-6" /> : <BookOpenIcon className="w-6 h-6" />}
+            <span className="text-xs">Terakhir Baca</span>
+          </Link>
+          <Link to="/favorites" className={`flex flex-col items-center transition-colors duration-300 ${location.pathname === '/favorites' ? 'text-[#1b76f5]' : 'text-gray-600 dark:text-gray-400'}`}>
+            {location.pathname === '/favorites' ? <HeartSolidIcon className="w-6 h-6" /> : <HeartIcon className="w-6 h-6" />}
+            <span className="text-xs">Favorit</span>
+          </Link>
+          <Link to="/settings" className={`flex flex-col items-center transition-colors duration-300 ${location.pathname === '/settings' ? 'text-[#1b76f5]' : 'text-gray-600 dark:text-gray-400'}`}>
+            {location.pathname === '/settings' ? <Cog6ToothSolidIcon className="w-6 h-6" /> : <Cog6ToothIcon className="w-6 h-6" />}
+            <span className="text-xs">Setelan</span>
+          </Link>
+        </div>
+      </nav>
     </div>
   );
 };

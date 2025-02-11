@@ -2,6 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getQuote } from '../services/quotesApi';
 
+interface MenuItem {
+  title: string;
+  icon: string;
+  to: string;
+}
+
 const Home: React.FC = () => {
   const [, setQuote] = useState({ quote: '', author: '' });
   const [, setLoading] = useState(true);
@@ -22,7 +28,7 @@ const Home: React.FC = () => {
     fetchQuote();
   }, []);
 
-  const menuItems = [
+  const menuItems: MenuItem[] = [
     { title: 'Baca Quran', icon: '/quran.png', to: '/read-quran' },
     { title: 'Juz Amma', icon: '/soon.png', to: '/juz-amma' },
     { title: 'Asmaul Husna', icon: '/asmaul.png', to: '/asmaul-husna' },
@@ -40,7 +46,7 @@ const Home: React.FC = () => {
         MyQuran
       </h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 max-w-4xl">
         {menuItems.map((item) => (
           <Link
             key={item.title}
