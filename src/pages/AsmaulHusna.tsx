@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { ThemeContext } from '../context/ThemeContext';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ArrowLeftIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { getAsmaulHusna } from '../services/asmaulHusnaApi';
 
@@ -18,7 +17,6 @@ const AsmaulHusna: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
-  const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
     const fetchAsmaulHusna = async () => {

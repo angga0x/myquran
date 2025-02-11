@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeftIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import { ThemeContext } from '../context/ThemeContext';
 import { getNiatShalat } from '../services/niatShalatApi';
 
 interface NiatShalatItem {
@@ -18,7 +17,6 @@ const NiatShalat: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
-  const { theme } = useContext(ThemeContext);
   const [expandedNiat, setExpandedNiat] = useState<number | null>(null);
 
   useEffect(() => {

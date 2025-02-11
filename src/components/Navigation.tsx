@@ -1,12 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { HomeIcon, BookOpenIcon, HeartIcon, Cog6ToothIcon } from '@heroicons/react/24/outline';
 import { HomeIcon as HomeSolidIcon, BookOpenIcon as BookOpenSolidIcon, HeartIcon as HeartSolidIcon, Cog6ToothIcon as Cog6ToothSolidIcon } from '@heroicons/react/24/solid';
-import { ThemeContext } from '../context/ThemeContext';
 
 const Navigation: React.FC = () => {
   const location = useLocation();
-  const { theme, toggleTheme } = useContext(ThemeContext);
 
   const isActive = (path: string) => location.pathname === path;
 

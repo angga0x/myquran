@@ -1,15 +1,12 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { Surah } from '../types/quran';
 import { getSurahs } from '../services/quranApi';
-import { ThemeContext } from '../context/ThemeContext';
 
 const FavoritesPage: React.FC = () => {
   const [favoriteSurahs, setFavoriteSurahs] = useState<Surah[]>([]);
   const navigate = useNavigate();
-    const { theme } = useContext(ThemeContext);
-
 
   useEffect(() => {
     const fetchFavoriteSurahs = async () => {

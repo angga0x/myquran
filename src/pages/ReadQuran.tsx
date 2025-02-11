@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getSurahs } from '../services/quranApi';
 import { Surah } from '../types/quran';
 import { Link, useNavigate } from 'react-router-dom';
 import { HeartIcon, ArrowLeftIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartSolidIcon } from '@heroicons/react/24/solid';
-import { ThemeContext } from '../context/ThemeContext';
 
 const ReadQuran: React.FC = () => {
   const [surahs, setSurahs] = useState<Surah[]>([]);
@@ -12,7 +11,6 @@ const ReadQuran: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [favorites, setFavorites] = useState<number[]>([]);
   const navigate = useNavigate();
-  const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
     const fetchSurahs = async () => {

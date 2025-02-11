@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import { getQuote } from '../services/quotesApi';
 
 const Home: React.FC = () => {
-  const [quote, setQuote] = useState({ quote: '', author: '' });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [, setQuote] = useState({ quote: '', author: '' });
+  const [, setLoading] = useState(true);
+  const [, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchQuote = async () => {

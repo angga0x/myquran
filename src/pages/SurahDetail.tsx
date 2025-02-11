@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useContext, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getSurahAyahs } from '../services/quranApi';
-import { AyahResponse } from '../types/quran';
+import { AyahResponse, Ayah } from '../types/quran';
 import { HeartIcon, ArrowLeftIcon, EllipsisVerticalIcon, PlayIcon, PauseIcon, BookmarkIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartSolidIcon, BookmarkIcon as BookmarkSolidIcon } from '@heroicons/react/24/solid';
 import { ThemeContext } from '../context/ThemeContext';
@@ -15,20 +15,20 @@ const SurahDetail: React.FC = () => {
   const { number } = useParams<{ number: string }>();
   const navigate = useNavigate();
   const [surahData, setSurahData] = useState<AyahResponse['data'] | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [lastReadAyah, setLastReadAyah] = useState<number | null>(null);
-  const { theme, toggleTheme } = useContext(ThemeContext);
   const [showTafsir, setShowTafsir] = useState(() => {
     const storedShowTafsir = localStorage.getItem('showTafsir');
     return storedShowTafsir === 'true' ? true : false;
   });
   const [tafsir, setTafsir] = useState<(Tafsir | null)[]>([]);
   const currentAyahRef = useRef<number | null>(null);
-  const [showTranslation, setShowTranslation] = useState(true);
+  const [showTranslationState] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   useEffect(() => {
     const fetchSurahData = async () => {
@@ -94,7 +94,7 @@ const SurahDetail: React.FC = () => {
     setLastReadAyah(ayahNumber);
   };
 
-  const handlePlayPause = (ayah: { nomorAyat: number, audio: { '01': string; }; }) => {
+  const handlePlayPause = (ayah: Ayah) => {
     if (audio) {
       audio.pause();
     }
@@ -105,7 +105,9 @@ const SurahDetail: React.FC = () => {
         setIsPlaying(false);
       } else {
         setIsPlaying(true);
-        audio.play();
+        if (audio) {
+          audio.play();
+        }
       }
       return;
     }
@@ -227,7 +229,7 @@ const SurahDetail: React.FC = () => {
                 {ayah.teksArab}
               </p>
               <div className="space-y-2">
-                {showTranslation && (
+                {showTranslationState && (
                   <p className="text-gray-600 dark:text-gray-300 font-italic">
                     {ayah.teksIndonesia}
                   </p>

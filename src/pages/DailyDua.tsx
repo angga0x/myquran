@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeftIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import { ThemeContext } from '../context/ThemeContext';
 import { getDoaHarian } from '../services/doaHarianApi';
 
 interface DoaHarianItem {
@@ -17,7 +16,6 @@ const DailyDua: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
-  const { theme } = useContext(ThemeContext);
   const [expandedDoa, setExpandedDoa] = useState<number | null>(null);
 
   useEffect(() => {

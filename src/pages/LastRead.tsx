@@ -1,13 +1,11 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { LastRead } from '../types/quran';
-import { ThemeContext } from '../context/ThemeContext';
 
 const LastReadPage: React.FC = () => {
   const [lastRead, setLastRead] = useState<LastRead | null>(null);
   const navigate = useNavigate();
-  const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
     const storedLastRead = localStorage.getItem('lastRead');
