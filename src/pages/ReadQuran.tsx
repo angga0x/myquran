@@ -53,7 +53,7 @@ const ReadQuran: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20 transition-colors duration-300">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 px-4 py-3 flex items-center shadow-sm sticky top-0 z-10">
+      <div className="bg-white dark:bg-gray-800 px-4 py-3 flex items-center shadow-sm sticky top-0 z-10 transition-colors duration-300">
         <button onClick={() => navigate(-1)} className="p-2">
           <ArrowLeftIcon className="w-6 h-6 text-gray-600 dark:text-gray-400" />
         </button>
@@ -85,12 +85,12 @@ const ReadQuran: React.FC = () => {
             <Link to={`/surah/${surah.nomor}`} className="block">
             <div className="flex justify-between items-center">
               <div className="flex items-center space-x-4">
-                <div className="w-10 h-10 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-300 font-semibold">
+                <div className="w-10 h-10 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-300 font-semibold transition-colors duration-300">
                   {surah.nomor}
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-800 dark:text-gray-200">{surah.namaLatin}</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                  <h3 className="font-semibold text-gray-800 dark:text-gray-200 transition-colors duration-300">{surah.namaLatin}</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 transition-colors duration-300">
                     {surah.arti} • {surah.jumlahAyat} Ayat
                   </p>
                 </div>
@@ -100,7 +100,7 @@ const ReadQuran: React.FC = () => {
             </Link>
             <div className="flex justify-end">
               <div className="flex items-center space-x-4">
-                <p className="font-arabic text-2xl text-gray-800 dark:text-gray-200">{surah.nama}</p>
+                <p className="font-arabic text-2xl text-gray-800 dark:text-gray-200 transition-colors duration-300">{surah.nama}</p>
                 <button
                   onClick={(e) => {
                     e.preventDefault();

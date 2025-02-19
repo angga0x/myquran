@@ -217,9 +217,9 @@ const SurahDetail: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-200 dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-gray-100 transition-colors duration-300 pb-32">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-200 dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-gray-100 transition-colors duration-300 pb-32 transition-colors duration-300">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 px-4 py-3 flex items-center justify-between shadow-sm fixed top-0 left-0 right-0 z-10">
+      <div className="bg-white dark:bg-gray-800 px-4 py-3 flex items-center justify-between shadow-sm fixed top-0 left-0 right-0 z-10 transition-colors duration-300">
         <div className="flex items-center">
           <button onClick={goHome} className="p-2">
             <ArrowLeftIcon className="w-6 h-6 text-gray-600 dark:text-gray-400" />
@@ -278,9 +278,9 @@ const SurahDetail: React.FC = () => {
         {/* Ayahs */}
         <div className="px-4 py-6 space-y-8">
           {surahData?.ayat.map((ayah, index) => (
-            <div key={ayah.nomorAyat} className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm transition-colors duration-300">
+            <div key={ayah.nomorAyat} className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm transition-colors duration-300 transition-colors duration-300">
               <div className="flex items-center justify-between bg-gray-50 dark:bg-gray-700 rounded p-2 mb-4">
-                <span className="text-gray-600 dark:text-gray-300 font-medium">{ayah.nomorAyat}</span>
+                <span className="text-gray-600 dark:text-gray-300 font-medium transition-colors duration-300">{ayah.nomorAyat}</span>
                 <div className="flex space-x-2">
                   <button 
                     className="p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-full"
@@ -304,12 +304,12 @@ const SurahDetail: React.FC = () => {
                   </button>
                 </div>
               </div>
-              <p className="text-right font-arabic text-3xl leading-[2.5] mb-6" dir="rtl">
+              <p className="text-right font-arabic text-3xl leading-[2.5] mb-6 transition-colors duration-300" dir="rtl">
                 {ayah.teksArab}
               </p>
               <div className="space-y-2">
                 {showTranslation && (
-                  <p className="text-gray-600 dark:text-gray-300 font-italic">
+                  <p className="text-gray-600 dark:text-gray-300 font-italic transition-colors duration-300">
                     <strong className="font-bold">Terjemahan:</strong> {ayah.teksIndonesia}
                   </p>
                 )}

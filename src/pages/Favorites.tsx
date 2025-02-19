@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { Surah } from '../types/quran';
 import { getSurahs } from '../services/quranApi';
 
@@ -29,7 +28,7 @@ const FavoritesPage: React.FC = () => {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20 transition-colors duration-300">
       <div className="bg-white dark:bg-gray-800 px-4 py-3 flex items-center shadow-sm">
         <button onClick={() => navigate(-1)} className="p-2">
-          <ArrowLeftIcon className="w-6 h-6 text-gray-600 dark:text-gray-400" />
+          <i className="fas fa-arrow-left w-6 h-6 text-gray-600 dark:text-gray-400"></i>
         </button>
         <h1 className="text-xl font-semibold ml-2 text-gray-800 dark:text-gray-200">Surah Favorit</h1>
       </div>
@@ -52,6 +51,7 @@ const FavoritesPage: React.FC = () => {
                   <p className="text-gray-500 dark:text-gray-400">{surah.namaLatin}</p>
                   <p className="text-gray-500 dark:text-gray-400">({surah.arti}: {surah.jumlahAyat} Ayat)</p>
                 </div>
+                <i className="fas fa-heart text-red-500"></i>
               </Link>
             ))}
           </div>
